@@ -16,7 +16,18 @@ class Spider:
             f.write(self.response.encode(self.codeType))
 
     def content_get(self, url):
-
         mainResponse = requests.get(url)
         return mainResponse.text
 
+
+def file_download(url, filename):
+    pdf = requests.get(url)
+    pf = open(filename, 'wb')
+    pdf.raise_for_status()  # 函数查看下载文件是否出错，如果加载出错就抛出异常，否则就什么都不做。
+    for buff in pdf.iter_content():
+        pf.write(buff)
+    pf.close()
+
+
+if __name__ == '__main__':
+    file_download('http://www.cninfo.com.cn/finalpage/2018-04-24/1204700915.PDF', 'test.pdf')
